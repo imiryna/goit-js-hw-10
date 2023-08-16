@@ -11,19 +11,15 @@ const refs = {
   div: document.querySelector('.cat-info'),
 };
 
-// refs.loader.classList.add('is-hidden', 'loader');
-// refs.select.classList.replace('is-hidden');
-// refs.error.classList.replace('is-hidden');
+refs.select.classList.replace('breed-select', 'is-hidden');
+refs.error.classList.replace('error', 'is-hidden');
+refs.loader.classList.replace('is-hidden', 'loader');
+
+function createErr() {
+  Notify.failure('Something goes wrong');
+}
 
 window.onload = () => {
-  Notify.failure('Qui timide rogat docet negare');
-  // refs.loader.classList.replace('is-hidden', 'loader');
-  refs.select.classList.add('is-hidden');
-  // refs.error.classList.replace('is-hidden');
-
-  //   const catSelect = new SlimSelect({
-  //     select: refs.select,
-  //   });
   fetchBreeds()
     .then(res => {
       const array = [
@@ -40,40 +36,40 @@ window.onload = () => {
       new SlimSelect({
         select: refs.select,
         data: array,
-        // settings: {
-        //   hideSelected: true,
-        // },
       });
 
-      //   renderIdList(data.data);
+      refs.select.classList.replace('is-hidden', 'breed-select');
+      refs.loader.classList.replace('loader', 'is-hidden');
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+      createErr();
+      console.log(error);
+    });
 };
-
-// function renderIdList(animalList) {
-//   let markup = '';
-//   for (const cat of animalList) {
-//     markup += `<option value="${cat.id}">${cat.name}</option>`;
-//   }
-//   refs.select.innerHTML = markup;
-// }
 
 refs.select.addEventListener('change', showCatCard);
 
 function showCatCard(e) {
-  //   refs.loader.classList.replace('is-hidden', 'loader');
-  //   refs.select.classList.add('is-hidden');
-  //   refs.error.classList.add('is-hidden');
+  refs.loader.classList.replace('is-hidden', 'loader');
+  refs.div.classList.replace('cat-info', 'is-hidden');
   const breedId = e.currentTarget.value;
   if (breedId != 'null') {
     fetchCatByBreed(breedId)
-      .then(data => renderCatInfo(data))
-      .catch(error => console.log(error));
+      .then(data => {
+        renderCatInfo(data);
+      })
+      .catch(error => {
+        createErr();
+        console.log(error);
+      });
   }
 }
-
+/*
+refs.div.classList.replace('cat-info', 'is-hidden');
+*/
 function renderCatInfo(catData) {
-  console.log(catData);
+  refs.loader.classList.replace('loader', 'is-hidden');
+  refs.div.classList.replace('is-hidden', 'cat-info');
   const { url, breeds } = catData.data[0];
   const { name, description, temperament } = breeds[0];
   refs.div.innerHTML = `<div class="box-img"><img src="${url}" alt="${name}" width="400"/></div><div class="box"><h1>${name}</h1><p>${description}</p><p><b>Temperament:</b> ${temperament}</p></div>`;

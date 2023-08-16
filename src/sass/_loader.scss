@@ -1,20 +1,31 @@
 .breed-select {
-  display: none;
   max-width: 400px;
-  margin: auto;
+  margin: 20px;
 }
 
 .is-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  border: 0;
-  padding: 0;
-  white-space: nowrap;
-  clip-path: inset(100%);
-  clip: rect(0 0 0 0);
-  overflow: hidden;
+  display: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  border: 1px solid #0d161b;
+}
+.cat-info {
+  margin-top: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: baseline;
+  gap: 40px;
+}
+.box-img {
+  display: flex;
+  align-items: center;
+}
+.box {
+  width: 400px;
 }
 
 .loader {
